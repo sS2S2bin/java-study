@@ -8,10 +8,21 @@ public class Goods {
 	private int countStock;
 	private int countSold;
 	
-	//내가 기본 생성자 만들기
+	//기본 생성자 오버로드
 	public Goods() {
+		// 지금 이 상태면 count가 안생겨 >> 중복코드는 정말 안좋은 것임
+		this("",0,0,0);
+	}
+	
+	//내가 기본 생성자 만들기
+	public Goods(String name, int price, int countStock, int countSold) {
 		Goods.countOfGoods++; //class이름으로 접근해야해. // 클래스 이름 생략 가능 내부에서 쓸 때는 안적어도 뭐라하진 않아.
 		
+		// 인스턴스 변수 초기화
+		this.name = name;
+		this.price = price;
+		this.countStock = countStock;
+		this.countSold = countSold;
 		
 	}
 	
