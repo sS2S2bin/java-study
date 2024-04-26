@@ -1,5 +1,5 @@
 package prob05;
-
+//건들X
 public class Base {
 	public void service(String state){
 		if( state.equals( "낮" ) ) {

@@ -10,6 +10,6 @@ public class SoundTest {
 	}
 	
 	private static void printSound( Soundable soundable ) {
-		System.out.println( soundable.sound() );
+		System.out.println( soundable.sound() ); //interface구
 	}
 }

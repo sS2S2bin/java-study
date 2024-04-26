@@ -1,5 +1,7 @@
 package prob04;
 
+// overrid 문제 depart 상속
+
 public class Prob04 {
 
 	public static void main(String[] args) {
