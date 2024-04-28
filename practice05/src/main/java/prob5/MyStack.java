@@ -80,12 +80,7 @@ public class MyStack {
 	 }
 	 
 	 public boolean isEmpty(){
-		 if(getTop()<0) {
-			 return true;
-		 }
-		 else {
-			 return false;
-		 }
+		 return top == -1;
 	 	
 	 }
 

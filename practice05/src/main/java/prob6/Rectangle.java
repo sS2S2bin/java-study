@@ -14,12 +14,12 @@ public class Rectangle extends Shape implements Resizable {
 	}
 
 	@Override
-	double getArea() {
+	protected double getArea() {
 		return width*height;
 	}
 
 	@Override
-	double getPerimeter() {
+	protected double getPerimeter() {
 		return (width+height)*2;
 	}
 
