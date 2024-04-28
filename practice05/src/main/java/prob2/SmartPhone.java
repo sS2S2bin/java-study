@@ -2,18 +2,13 @@ package prob2;
 
 public class SmartPhone extends MusicPhone {
 	// 음악 통화 앱 각각 실행 Override
+	@Override
 	public void execute ( String function ) {
-	    if (function.equals("앱") ) {
+	    if ("앱".equals(function) ) {
 	        app();
 	        return;
 	    }
-	    if(function.equals("음악")) {
-	    	this.playMusic();
-	    	return;
-	    }
-	    else {
-	    	super.execute( function );
-	    }    
+	    	super.execute( function );    
 	    
 	    
 	}
