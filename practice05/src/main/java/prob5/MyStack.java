@@ -37,7 +37,7 @@ public class MyStack {
 		this.bufferSize = bufferSize;
 	}
 	
-	public String[] resize() {
+	public void resize() {
 		//2배로 긴 배열 생성
 	 	String[] tmp = new String[bufferSize*2];
 	 	
@@ -49,26 +49,22 @@ public class MyStack {
 	 	
 	 	// 버퍼사이즈 늘리기
 	 	setBufferSize(bufferSize*2);
-	 	return tmp;
+	 	setBuffer(tmp); // resize의 리턴값을 void로 
 	}
 	
 	public void push(String s){
 	 	// size top 비교 : 들어갈 수 있는지?
-		if(top<(bufferSize-1)) {
-		 	setTop(top+1);
-		 	buffer[top] = s;
+		if(top==(bufferSize-1)) {
+			resize();
 		}
-		else {
-			setBuffer(resize());
-			//resize 이후 제일 위에 값 push
-			setTop(top+1); 
-			buffer[top] = s;
-		}
+		//코드 중복 줄이기
+		setTop(top+1);
+	 	buffer[top] = s;
 	 	
 	 }
 	
 	
-	 public String pop() throws MyStackException{ //내가 만든 예외처리 throw 해줘
+	 public String pop() throws MyStackException { //내가 만든 예외처리 throw 해줘
 		 int tmpTop = getTop();
 		 
 		 if(isEmpty()) {
