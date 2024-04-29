@@ -12,6 +12,7 @@
   	<module>practice05</module>
   	<module>chapter03</module>
   	<module>test</module>
+  	<module>designpattern-practice</module>
   </modules>
   
   <properties>
