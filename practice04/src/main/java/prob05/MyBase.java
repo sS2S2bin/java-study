@@ -14,9 +14,8 @@ public class MyBase extends Base {
 	public void service(String state){
 		if( state.equals( "오후" ) ) {
 			noon();
+			return ; //이렇게하면 else를 안써도
 		}
-		else {
 			super.service(state);
-		}
 	}
 }
