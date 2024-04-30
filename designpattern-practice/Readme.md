@@ -1,6 +1,5 @@
 ## Design patterns
 
-
 #### Creational
 1. Singleton *
 2. Factory Method *
@@ -12,7 +11,7 @@
 1. Chain of Responsibility
 2. Command
 3. Interpreter
-4. Interator *
+4. Iterator *
 5. Mediator
 6. Mementor
 7. Observer *
