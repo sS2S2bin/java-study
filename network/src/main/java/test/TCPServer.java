@@ -70,9 +70,9 @@ public class TCPServer {
 				if (socket !=null && !socket.isClosed()) {
 					try {
 						socket.close();
-						System.out.println("client socket 닫힘");
+						System.out.println("server socket 닫힘");
 					} catch (IOException e) {
-						System.out.println("[client] error : "+e);
+						System.out.println("[server] error : "+e);
 					}
 				}
 			}
