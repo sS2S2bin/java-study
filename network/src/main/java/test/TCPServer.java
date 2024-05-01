@@ -20,7 +20,7 @@ public class TCPServer {
 			//2. 바인딩(binding)
 			// Socket에 InetSocketAddress[InetAddress(IPAddress + Port)]룰 바인딩 한다.
 			// IPAddress: 0.0.0.0: 특정 호스트 IP를 바인딩 하지 않는다.
-			serverSocket.bind(new InetSocketAddress("0.0.0.0",5001),10);
+			serverSocket.bind(new InetSocketAddress("0.0.0.0",4000),10);
 			
 			
 			//3. accept
@@ -50,7 +50,7 @@ public class TCPServer {
 				
 				if(readByteCount==-1) {
 					// client 가 정상적으로 종료
-					System.out.println("[server] closed by client");
+					System.out.println("[server] successfully closed by client");
 					break;
 				}
 				String data = new String(buffer,0,readByteCount,"UTF-8");
