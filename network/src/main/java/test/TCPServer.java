@@ -44,12 +44,12 @@ public class TCPServer {
 			while(true) {
 				//5. 데이터 읽기
 				// int data = is.read(); 이건 한 글자씩
-				//소켓통신은 바이트 단위1!!!!!!
+				// 소켓통신은 바이트 단위1!!!!!!
 				byte[] buffer = new byte[256];
 				int readByteCount = is.read(buffer); //blocking
 				
 				if(readByteCount==-1) {
-					// client 가 정상적으로 종료
+					// Closed by Clieent
 					System.out.println("[server] successfully closed by client");
 					break;
 				}
@@ -62,7 +62,7 @@ public class TCPServer {
 			}
 	
 			}catch(SocketException e) {
-				System.out.println("[server] 비정상 종료 suddenly closed by client : "+e);
+				System.out.println("[server] Socket Exception : "+e);
 			}
 			catch (IOException e) {
 				System.out.println("[server] error : "+e);
