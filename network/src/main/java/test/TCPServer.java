@@ -48,7 +48,7 @@ public class TCPServer {
 				byte[] buffer = new byte[256];
 				int readByteCount = is.read(buffer); //blocking
 				
-				if(readByteCount==-1) {
+				if(readByteCount==-1) { // 버퍼 파일에 stream이 끝이 남. 버퍼가 없어지면-1을 리턴 (파일의끝)
 					// Closed by Clieent
 					System.out.println("[server] successfully closed by client");
 					break;
