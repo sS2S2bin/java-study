@@ -25,8 +25,8 @@ public class ChatServerThread extends Thread {
 
 	@Override
 	public void run() {	
+		PrintWriter printWriter = null;
 		try {
-			
 			//1. Remote Host Information
 			InetSocketAddress inetRemoteSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
 			String remoteHostAddress = inetRemoteSocketAddress.getAddress().getHostAddress();
@@ -36,7 +36,7 @@ public class ChatServerThread extends Thread {
 			
 			//2. 스트림 얻기
 			BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( socket.getInputStream(), StandardCharsets.UTF_8 ) );
-			PrintWriter printWriter = new PrintWriter( new OutputStreamWriter( socket.getOutputStream(), StandardCharsets.UTF_8 ), true );
+			printWriter = new PrintWriter( new OutputStreamWriter( socket.getOutputStream(), StandardCharsets.UTF_8 ), true );
 			
 			
 			
@@ -71,8 +71,10 @@ public class ChatServerThread extends Thread {
 			   }
 			}
 		} catch(SocketException e) {
+			doQuit(printWriter);
 			ChatServer.log(" 비정상 종료 suddenly closed by client : "+e);
 		}catch (IOException e) {
+			doQuit(printWriter);
 			ChatServer.log(""+e);
 		}finally {
 			if (socket !=null && !socket.isClosed()) {
@@ -115,16 +117,17 @@ public class ChatServerThread extends Thread {
 
 	private void removeWriter( Writer writer ) {
 		listWriters.remove(writer);
-		try {
-			for(Writer writers : listWriters) {
-				if (writers.equals(writer) && writer!=null) {
-					writer.close();
-				}
-			}
-			
-		} catch (IOException e) {
-			ChatServer.log("remove writer : "+e);
-		}
+		//이거 할 필요 X 참조하는 애가 사라지면 GC가 알아서 처리해줌.
+//		try {
+//			for(Writer writers : listWriters) {
+//				if (writers.equals(writer) && writer!=null) {
+//					writer.close();
+//				}
+//			}
+//			
+//		} catch (IOException e) {
+//			ChatServer.log("remove writer : "+e);
+//		}
 	}
 
 
