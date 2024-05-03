@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 
 public class ChatServerThread extends Thread {
@@ -51,31 +52,28 @@ public class ChatServerThread extends Thread {
 		
 			   // 4. 프로토콜 분석
 			   String[] tokens = request.split( ":" );
-				
-			   if( "join".equals( tokens[0] ) ) {
-		
-			      doJoin( tokens[1], printWriter );
-		
-			   } else if( "message".equals( tokens[0] ) ) {
-			      
-			      doMessage( tokens[1] );
-		
-			   } else if( "quit".equals( tokens[0] ) ) {
-			      
-			      doQuit(printWriter);
-			      break;
-		
-			   } else {
-		
-			      ChatServer.log( "에러:알수 없는 요청(" + tokens[0] + ")" );
-			   }
+			   
+			   if("join".equals(tokens[0])) {
+					doJoin(tokens[1], printWriter);
+				} else if("message".equals(tokens[0])) {
+					doMessage(tokens[1]);
+				} else if("quit".equals(tokens[0])) {
+					doQuit(printWriter);
+					break;
+				} else {
+				   ChatServer.log("에러:알수 없는 요청(" + tokens[0] + ")");
+				}
+			   
+			  
 			}
+			
 		} catch(SocketException e) {
-			doQuit(printWriter);
+			
 			ChatServer.log(" 비정상 종료 suddenly closed by client : "+e);
-		}catch (IOException e) {
 			doQuit(printWriter);
+		}catch (IOException e) {
 			ChatServer.log(""+e);
+			doQuit(printWriter);
 		}finally {
 			if (socket !=null && !socket.isClosed()) {
 				try {
@@ -116,24 +114,18 @@ public class ChatServerThread extends Thread {
 	}
 
 	private void removeWriter( Writer writer ) {
-		listWriters.remove(writer);
-		//이거 할 필요 X 참조하는 애가 사라지면 GC가 알아서 처리해줌.
-//		try {
-//			for(Writer writers : listWriters) {
-//				if (writers.equals(writer) && writer!=null) {
-//					writer.close();
-//				}
-//			}
-//			
-//		} catch (IOException e) {
-//			ChatServer.log("remove writer : "+e);
-//		}
+		synchronized(listWriters) {
+			listWriters.remove(writer);
+		}
+		//참조하는 애가 사라지면 GC가 알아서 처리해줌.
 	}
 
 
 	private void doMessage(String string) {
 		// 잘 구현하시요 ^^
-		broadcast(nickname+":"+string);
+		byte[] decodedBytes = Base64.getDecoder().decode(string);
+        String decodedStr = new String(decodedBytes);
+		broadcast(nickname+":"+decodedStr);
 		
 	}
 	

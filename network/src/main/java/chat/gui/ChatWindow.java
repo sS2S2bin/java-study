@@ -19,6 +19,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.Base64;
 
 public class ChatWindow {
 
@@ -82,7 +84,6 @@ public class ChatWindow {
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				finish();
-				
 			}
 		});
 		frame.setVisible(true);
@@ -103,21 +104,28 @@ public class ChatWindow {
 	}
 	
 	private void finish() {
-		//quit 프로토콜 구현
-		pw.println("quit:");
-		
-		//exit java application
-		System.exit(0);
-		
+		try {
+			if(socket!=null && socket.isClosed()) {
+				socket.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		pw.println("quit");
+		System.exit(0);	
 	}
 	
 	private void sendMessage() {
 		String message = textField.getText();
-		pw.println("message:"+message);
 		
-		// 보낸다음에 textField 지워
-		textField.setText("");
-		textField.requestFocus();
+		if(!message.isBlank()) { //isEmpty 와 차이 : blank하면 엔터 스페이스 등 모두 안보내짐
+			//base64 byte>base64string
+			String encodedStr = Base64.getEncoder().encodeToString(message.getBytes());
+			pw.println("message:"+encodedStr);
+			// 보낸다음에 textField 지워
+			textField.setText("");
+			textField.requestFocus();
+		}
 		
 	}
 	private void updateTextArea(String message) {
@@ -125,7 +133,7 @@ public class ChatWindow {
 		textArea.append("\n");
 	}
 	
-	// 여기내부에 chatclient thread를 만들어 
+	// chatClientThread 오직 소켓을 읽는거만 하고, 그 소켓을 textArea보여주는거만 함
 	private class ChatClientThread extends Thread{
 		private BufferedReader br;
 		private Socket socket;
@@ -144,15 +152,16 @@ public class ChatWindow {
 				message = br.readLine();
 				if(message ==null) {
 					break;
-				}
+					}
 				updateTextArea(message);
-			}
-				
-				
-			} 
-			catch (IOException e) {
-				finish();
+				}
+			} catch(SocketException e) {
 				System.out.println(e);
+			}
+			catch (IOException e) {
+				System.out.println(e);
+			}finally {
+				finish();
 			}
 		}
 	}
