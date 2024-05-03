@@ -29,7 +29,6 @@ public class ChatWindow {
 	private TextArea textArea;
 	
 	private Socket socket;
-	private String name;
 	private PrintWriter pw;
 	
 
@@ -40,7 +39,6 @@ public class ChatWindow {
 		textField = new TextField();
 		textArea = new TextArea(30, 80);
 		this.socket = socket;
-		this.name = name;
 	}
 
 	public void show() {
@@ -115,13 +113,11 @@ public class ChatWindow {
 	
 	private void sendMessage() {
 		String message = textField.getText();
-		// message가 Null인지 아닌지 확인
 		pw.println("message:"+message);
 		
 		// 보낸다음에 textField 지워
 		textField.setText("");
 		textField.requestFocus();
-		updateTextArea( name + ":"  +message);
 		
 	}
 	private void updateTextArea(String message) {
@@ -149,13 +145,7 @@ public class ChatWindow {
 				if(message ==null) {
 					break;
 				}
-				updateTextArea( name + ":"  +message);
-				
-				String[] tokens = message.split(":");
-				if("quit".equals(tokens[0])) {
-					break;
-				}
-
+				updateTextArea(message);
 			}
 				
 				
