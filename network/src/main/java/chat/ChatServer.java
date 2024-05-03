@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatServer {
-	public static final int PORT = 8092;
+	public static final int PORT = 8000;
 	
 	public static void log(String message) {
 		System.out.println("[ChatServer]"+message);

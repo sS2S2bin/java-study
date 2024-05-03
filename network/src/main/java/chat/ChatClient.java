@@ -69,10 +69,10 @@ public class ChatClient {
 			
 			
 		}catch(SocketException e) {
-			log("Socket Exception"+e);
+			//log("Socket Exception"+e);
 		}
 		catch(IOException e) {
-			log("error:"+e);
+			//log("error:"+e);
 			
 		}finally {
 			try {
